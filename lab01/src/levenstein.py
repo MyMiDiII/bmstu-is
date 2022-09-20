@@ -1,5 +1,22 @@
 INF = -1
 
+def printInfo():
+    print("Программа предоставляет интерфейс для поиска расстояния\n"
+          + "Левенштейна\n" )
+
+
+def printAuthor():
+    print("АВТОР: Маслова Марина")
+    print("ГРУППА: ИУ7-53Б")
+
+
+def printGreeting():
+    print("РАССТОЯНИЕ ЛЕВЕНШТЕЙНА")
+    print()
+    printInfo();
+    print()
+    printAuthor();
+
 def matrixInit(len1, len2):
     matrix = [[i + j if i * j == 0 else INF for j in range(len2 + 1)]
                for i in range(len1 + 1)]
@@ -41,7 +58,7 @@ def matrixLevenstein(str1, str2):
 
     matr = matrixInit(len1, len2)
     dist = 0
-    
+
     for i in range(1, len1 + 1):
         for j in range(1, len2 + 1):
             addDist = 0 if str1[i - 1] == str2[j - 1] else 1
@@ -81,3 +98,22 @@ def cacheLevenstein(str1, str2):
     dist = recursiveCacheLevenstein(str1, str2, matr)
 
     return dist
+
+
+@staticmethod
+def main():
+    str1 = input("Первая строка: ").lower()
+    str2 = input("Вторая строка: ").lower()
+    print()
+    print("РЕЗУЛЬТАТЫ")
+    print("Расстояния Левенштейна")
+    print("Рекурсивный алгоритм:", recursiveLevenstein(str1, str2))
+    matrRes, matr = matrixLevenstein(str1, str2)
+    print("Матричный алгоритм:", matrRes)
+    print("Рекурсивный алгоритм с кэшем:", cacheLevenstein(str1, str2))
+    printDistMatrix(matr, str1, str2)
+    print("Спасибо за использование программы!")
+
+
+#if __name__ == "__main__":
+#    main()
