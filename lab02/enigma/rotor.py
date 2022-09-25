@@ -2,56 +2,51 @@ import random
 import sys
 
 import logging
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(format='%(message)s', level=logging.DEBUG)
 
 class Rotor:
 
-    def __init__(self, alphabetLen,
-                 orderSeed=None, positionSeed=None):
-        self._alphabet = [x for x in range(alphabetLen)]
+    def __init__(self, alphabet, beginPosition=None):
 
-        self._orderSeed = (orderSeed if orderSeed is not None
-                               else random.randrange(sys.maxsize))
-        self._setOrder(self._orderSeed)
+        if isinstance(alphabet, int):
+            self._alphabet = [x for x in range(alphabet)]
+            random.shuffle(self._alphabet)
+        else:
+            self._alphabet = alphabet.copy()
 
-        self._positionSeed = (positionSeed if positionSeed is not None
-                                  else random.randrange(sys.maxsize))
-        self._setPosition(self._positionSeed)
+        self._position = (beginPosition if beginPosition is not None
+                            else random.randint(0, len(self._alphabet)))
 
         logging.debug("\nAlphabet:\n{0}".format(self._alphabet))
-        logging.debug("\nOrder:\n{0}".format(self._order))
         logging.debug("\nPosition:\n{0}".format(self._position))
 
 
-    def _setOrder(self, orderSeed):
-        random.seed(orderSeed)
-        self._order = self._alphabet.copy()
-        random.shuffle(self._order)
+    def _setAlphabet(self, alphabet):
+        self._alphabet = alphabet.copy()
 
 
-    def _setPosition(self, positionSeed):
-        random.seed(positionSeed)
-        self._position = random.randint(0, len(self._order))
+    def _setPosition(self, position):
+        self._position = position
 
 
-    def SetConfig(self, orderSeed, positionSeed):
-        self._setOrder(orderSeed)
-        self._setPosition(positionSeed)
+    def SetConfig(self, alphabet, position):
+        self._setAlphabet(alphabet)
+        self._setPosition(position)
 
-        logging.debug("\nOrder:\n{0}".format(self._order))
+        logging.debug("\nAlphabet:\n{0}".format(self._alphabet))
         logging.debug("\nPosition:\n{0}".format(self._position))
 
 
     def GetConfig(self):
-        return self._orderSeed, self._positionSeed
+        return self._alphabet, self._position
 
 
     def GetForward(self, index):
-        return self._order[(index + self._position) % len(self._alphabet)]
+        return self._alphabet[(index + self._position) % len(self._alphabet)]
 
 
     def GetInverse(self, value):
-        return (self._order.index(value)
+        return (self._alphabet.index(value)
                     - self._position) % len(self._alphabet)
 
 
@@ -65,16 +60,15 @@ if __name__ == "__main__":
 
     rotor1 = Rotor(26)
 
-    rotorCopy1 = Rotor(26, orderSeed=rotor._orderSeed,
-                       positionSeed=rotor._positionSeed)
+    rotorCopy1 = Rotor(*rotor.GetConfig())
 
     rotor1.SetConfig(*rotor.GetConfig())
 
     alphabet = list("abcde")
 
-    test = Rotor(len(alphabet))
+    test = Rotor(list(reversed([x for x in range(len(alphabet))])), 0)
 
     for i in range(len(alphabet)):
-        print("forward", alphabet[test.GetForward(i)])
-        print("inverse", alphabet[test.GetInverse(i)])
+        logging.debug("\nforward: {0}".format(alphabet[test.GetForward(i)]))
+        logging.debug("\ninverse: {0}".format(alphabet[test.GetInverse(i)]))
 
