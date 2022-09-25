@@ -16,6 +16,7 @@ class Rotor:
 
         self._position = (beginPosition if beginPosition is not None
                             else random.randint(0, len(self._alphabet)))
+        self._initPos = self._position
 
         logging.debug("\nAlphabet:\n{0}".format(self._alphabet))
         logging.debug("\nPosition:\n{0}".format(self._position))
@@ -27,6 +28,7 @@ class Rotor:
 
     def _setPosition(self, position):
         self._position = position
+        self._initPos = self._position
 
 
     def SetConfig(self, alphabet, position):
@@ -38,7 +40,7 @@ class Rotor:
 
 
     def GetConfig(self):
-        return self._alphabet, self._position
+        return self._alphabet, self._initPos
 
 
     def GetForward(self, index):
@@ -53,6 +55,10 @@ class Rotor:
     def Rotate(self):
         self._position += 1
         return self._position
+
+
+    def Reset(self):
+        self._position = self._initPos
 
 
 if __name__ == "__main__":
