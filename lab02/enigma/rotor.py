@@ -54,7 +54,7 @@ class Rotor:
 
     def Rotate(self):
         self._position += 1
-        return self._position
+        return self._position % len(self._alphabet)
 
 
     def Reset(self):
