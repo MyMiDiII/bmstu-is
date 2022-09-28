@@ -2,7 +2,7 @@ import random
 import itertools
 
 import logging
-logging.basicConfig(format='%(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(message)s', level=logging.INFO)
 
 class Reflector():
     def __init__(self, pairs):

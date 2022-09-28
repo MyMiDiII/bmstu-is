@@ -1,5 +1,5 @@
-from rotor import Rotor
-from reflector import Reflector
+from enigma.rotor import Rotor
+from enigma.reflector import Reflector
 
 from string import ascii_letters
 
@@ -30,6 +30,10 @@ class Enigma:
         while notFull and i < len(self._rotors):
             notFull = self._rotors[i].Rotate()
             i += 1
+
+
+    def Reset(self):
+        self.SetConfig(*self.GetConfig())
 
 
     def Encode(self, char):
