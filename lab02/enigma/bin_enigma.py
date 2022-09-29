@@ -23,11 +23,12 @@ class BinEnigma:
 
             i = 0
             while (byte := inFile.read(1)):
-                print(byte)
                 i += 1
-                print("num = ", i)
                 x = bytes([self._enigma.Encipher(byte)])
-                print(x)
-                print("len = ", len(x))
                 outFile.write(x)
+
+                # print(byte)
+                # print("num = ", i)
+                # print(x)
+                # print("len = ", len(x))
 
