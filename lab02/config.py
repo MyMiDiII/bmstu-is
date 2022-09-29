@@ -1,8 +1,8 @@
 import string
 
-alphabet = (string.printable
+alphabet = list(string.printable
         + "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя"
-        + "№ ")
+        + "№")
+alphabet.remove('\r')
 
-alphabet = list(alphabet)
-
+print(alphabet)
