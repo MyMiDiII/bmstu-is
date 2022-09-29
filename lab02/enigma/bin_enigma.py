@@ -16,7 +16,7 @@ class BinEnigma:
         self._enigma.Reset()
 
 
-    def Encode(self, inFilename, outFilename="encoded.bin"):
+    def Encipher(self, inFilename, outFilename="encoded.bin"):
 
         with (open(inFilename, "rb") as inFile,
               open(outFilename, "wb") as outFile):
@@ -26,7 +26,7 @@ class BinEnigma:
                 print(byte)
                 i += 1
                 print("num = ", i)
-                x = bytes([self._enigma.Encode(byte)])
+                x = bytes([self._enigma.Encipher(byte)])
                 print(x)
                 print("len = ", len(x))
                 outFile.write(x)

@@ -16,11 +16,11 @@ class TextEnigma:
         self._enigma.Reset()
 
 
-    def Encode(self, inFilename, outFilename="encodedText.txt"):
+    def Encipher(self, inFilename, outFilename="encodedText.txt"):
 
         with (open(inFilename, "r") as inFile,
               open(outFilename, "w") as outFile):
 
             for line in inFile:
                 for char in line:
-                    outFile.write(self._enigma.Encode(char))
+                    outFile.write(self._enigma.Encipher(char))

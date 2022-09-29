@@ -36,7 +36,7 @@ class Enigma:
         self.SetConfig(*self.GetConfig())
 
 
-    def Encode(self, char):
+    def Encipher(self, char):
         charCode = self._alphabet.index(char)
         #print(self._alphabet[charCode])
 
@@ -68,14 +68,14 @@ if __name__ == "__main__":
     print("ORIGINAL", benchmark)
     encryptedMsg = ""
     for char in benchmark:
-        encryptedMsg += enigma.Encode(char)
+        encryptedMsg += enigma.Encipher(char)
 
     print("ENCRYPTED", encryptedMsg)
     enigma.SetConfig(*enigma.GetConfig())
 
     originalMsg = ""
     for char in encryptedMsg:
-        originalMsg += enigma.Encode(char)
+        originalMsg += enigma.Encipher(char)
 
     print("ORIGINAL", originalMsg)
 

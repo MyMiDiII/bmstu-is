@@ -16,9 +16,9 @@ class StringEnigma:
         self._enigma.Reset()
 
 
-    def Encode(self, string):
+    def Encipher(self, string):
         result = ""
         for char in string:
-            result += self._enigma.Encode(char)
+            result += self._enigma.Encipher(char)
 
         return result
