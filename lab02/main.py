@@ -5,51 +5,68 @@ from enigma.string_enigma import StringEnigma
 from enigma.text_enigma import TextEnigma
 from enigma.bin_enigma import BinEnigma
 from enigma.enigma import Enigma
+import enigma.config_parser as ConfPars
 
 from config import alphabet, bin_alphabet
 
 
-def EncipherString():
-   enigma = Enigma(alphabet)
-   strEnigma = StringEnigma(enigma)
-
-   inString = input("Введите сообщение для шифрования:\n")
-   encodedString = strEnigma.Encipher(inString)
-   print("Зашифрованное сообщение:", encodedString, sep="\n")
-
-   strEnigma.Reset()
-   result = strEnigma.Encipher(encodedString)
-   print("Расшифрованное сообщение:", result, sep="\n")
-
-   #print(strEnigma.GetEnigmaConfig())
-
-
-def EncipherText(filename):
+def EncipherString(conf):
     enigma = Enigma(alphabet)
+
+    if conf is not None:
+        enigmaConfig = ConfPars.LoadConfig(conf)
+        enigma.SetConfig(*enigmaConfig)
+        print("Настройки Энигмы успешно загружены из файла", conf)
+
+    strEnigma = StringEnigma(enigma)
+
+    inString = input("Введите сообщение для шифрования:\n")
+    encodedString = strEnigma.Encipher(inString)
+    print("Зашифрованное сообщение:", encodedString, sep="\n")
+
+    if conf is None:
+        ConfPars.SaveConfig(strEnigma.GetEnigmaConfig(), "config/str")
+        print("Настройки Энигмы успешно сохранены в файл", "config/str")
+
+
+def EncipherText(filename, conf):
+    enigma = Enigma(alphabet)
+
+    if conf is not None:
+        enigmaConfig = ConfPars.LoadConfig(conf)
+        enigma.SetConfig(*enigmaConfig)
+        print("Настройки Энигмы успешно загружены из файла", conf)
+
     textEnigma = TextEnigma(enigma)
 
     try:
         textEnigma.Encipher(filename)
 
-        textEnigma.Reset()
+        if conf is None:
+            ConfPars.SaveConfig(textEnigma.GetEnigmaConfig(), "config/text")
+            print("Настройки Энигмы успешно сохранены в файл", "config/text")
 
-        textEnigma.Encipher("encodedText.txt", "check.txt")
     except EnvironmentError:
         print("Ошибка при открытии файла!")
 
 
-def EncipherBinary(filename):
+def EncipherBinary(filename, conf):
     enigma = Enigma(bin_alphabet)
+
+    if conf is not None:
+        enigmaConfig = ConfPars.LoadConfig(conf)
+        enigma.SetConfig(*enigmaConfig)
+        print("Настройки Энигмы успешно загружены из файла", conf)
+
     binEnigma = BinEnigma(enigma)
 
     try:
         binEnigma.Encipher(filename)
 
-        binEnigma.Reset()
+        if conf is None:
+            ConfPars.SaveConfig(binEnigma.GetEnigmaConfig(), "config/bin")
+            print("Настройки Энигмы успешно сохранены в файл", "config/bin")
 
-        binEnigma.Encipher("encoded.bin", "check.bin")
-
-        #print(binEnigma.GetEnigmaConfig())
     except EnvironmentError:
         print("Ошибка при открытии файла!")
 
@@ -87,11 +104,11 @@ if __name__ == "__main__":
     print(args)
 
     if args.mode == "str":
-        EncipherString()
+        EncipherString(args.conf)
 
     elif args.mode == "text":
-        EncipherText(args.filename)
+        EncipherText(args.filename, args.conf)
 
     elif args.mode == "bin":
-        EncipherBinary(args.filename)
+        EncipherBinary(args.filename, args.conf)
 
