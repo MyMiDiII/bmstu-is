@@ -5,4 +5,8 @@ alphabet = list(string.printable
         + "№")
 alphabet.remove('\r')
 
-print(alphabet)
+bin_alphabet = bytes([x for x in range(256)])
+
+if __name__ == "__main__":
+    print(alphabet)
+    print(bin_alphabet)
