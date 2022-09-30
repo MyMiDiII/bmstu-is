@@ -108,4 +108,5 @@ xdg-open Result.pdf
 
 [Еще описание на русском](https://habr.com/en/post/534066/)
 
-[Красиво и полезно](https://www.youtube.com/watch?v=ybkkiGtJmkM) (by @hamzreg)
+[Красиво и полезно](https://www.youtube.com/watch?v=ybkkiGtJmkM) (ссылочкой
+поделилась [@hamzreg](https://github.com/hamzreg))
