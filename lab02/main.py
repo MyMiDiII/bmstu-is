@@ -29,7 +29,7 @@ def EncipherString(conf):
         print("Настройки Энигмы успешно сохранены в файл", "config/str")
 
 
-def EncipherText(filename, conf):
+def EncipherText(filename, conf, outfilename):
     enigma = Enigma(alphabet)
 
     if conf is not None:
@@ -40,8 +40,9 @@ def EncipherText(filename, conf):
     textEnigma = TextEnigma(enigma)
 
     try:
-        textEnigma.Encipher(filename)
+        textEnigma.Encipher(filename, outfilename)
 
+        print("Файл зашифрован и сохранен под именен {0}!".format(outfilename))
         if conf is None:
             ConfPars.SaveConfig(textEnigma.GetEnigmaConfig(), "config/text")
             print("Настройки Энигмы успешно сохранены в файл", "config/text")
@@ -50,7 +51,7 @@ def EncipherText(filename, conf):
         print("Ошибка при открытии файла!")
 
 
-def EncipherBinary(filename, conf):
+def EncipherBinary(filename, conf, outfilename):
     enigma = Enigma(bin_alphabet)
 
     if conf is not None:
@@ -61,8 +62,9 @@ def EncipherBinary(filename, conf):
     binEnigma = BinEnigma(enigma)
 
     try:
-        binEnigma.Encipher(filename)
+        binEnigma.Encipher(filename, outfilename)
 
+        print("Файл зашифрован и сохранен под именен {0}!".format(outfilename))
         if conf is None:
             ConfPars.SaveConfig(binEnigma.GetEnigmaConfig(), "config/bin")
             print("Настройки Энигмы успешно сохранены в файл", "config/bin")
@@ -86,6 +88,7 @@ def parse_args():
     parser_text.add_argument('filename', type=str, help='путь к файлу')
     parser_text.add_argument('--conf', nargs='?',
                         help='указание файла с начальными настройками Энигмы')
+    parser_text.add_argument('--out', nargs='?', help='указание имени выходного файла')
     parser_text.set_defaults(mode='text')
 
     parser_bin = subparsers.add_parser('bin', help='шифрование бинарного файла')
@@ -93,6 +96,7 @@ def parse_args():
                              help='путь к файлу')
     parser_bin.add_argument( '--conf', nargs='?',
                     help='указание файла с начальными настройками Энигмы')
+    parser_bin.add_argument('--out', nargs='?', help='указание имени выходного файла')
     parser_bin.set_defaults(mode='bin')
 
     return parser.parse_args()
@@ -101,14 +105,14 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
 
-    print(args)
-
     if args.mode == "str":
         EncipherString(args.conf)
 
     elif args.mode == "text":
-        EncipherText(args.filename, args.conf)
+        EncipherText(args.filename, args.conf,
+                     args.out if args.out is not None else"result.txt")
 
     elif args.mode == "bin":
-        EncipherBinary(args.filename, args.conf)
+        EncipherBinary(args.filename, args.conf,
+                       args.out if args.out is not None else "result.bin")
 
