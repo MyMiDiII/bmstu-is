@@ -7,11 +7,11 @@ from tables import B, SI, CP
 from purmutation import purmute
 
 
-def bitarray_circular_shift(bits: bitarray, step: int):
-    return (bitarray([0] * (len(bits) - step)) + bits[:step]) ^ (bits << step)
+def bitarray_circular_shift(bits: bitarray, step: int) -> bitarray:
+    return (bitarray([0] * (len(bits) - step)) + bits[:step]) | (bits << step)
 
 
-def generate_keys(key: bitarray):
+def generate_keys(key: bitarray) -> list[bitarray]:
     if len(key) != 64:
         return []
 
@@ -29,7 +29,7 @@ def generate_keys(key: bitarray):
         keys.append(purmute(ci+di, CP))
 
         #print(ba2hex(ci), ba2hex(di), sep="\n")
-        #print(ba2hex(keys[i]))
+        print(ba2hex(keys[i]))
 
     return keys
 
