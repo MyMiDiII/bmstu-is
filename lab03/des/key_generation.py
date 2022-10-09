@@ -6,6 +6,7 @@ from tables import B, SI, CP
 
 from purmutation import purmute
 
+
 def bitarray_circular_shift(bits: bitarray, step: int):
     return (bitarray([0] * (len(bits) - step)) + bits[:step]) ^ (bits << step)
 
@@ -25,9 +26,10 @@ def generate_keys(key: bitarray):
     for i in range(ROUND_NUMBER):
         ci = bitarray_circular_shift(ci, SI[i])
         di = bitarray_circular_shift(di, SI[i])
-        #print(ba2hex(ci), ba2hex(di), sep="\n")
         keys.append(purmute(ci+di, CP))
-        print(ba2hex(keys[i]))
+
+        #print(ba2hex(ci), ba2hex(di), sep="\n")
+        #print(ba2hex(keys[i]))
 
     return keys
 
