@@ -17,12 +17,12 @@ def encipher(msg: bitarray, keys: list[bitarray], deciphiring=False):
 
     if deciphiring:
         left, right = right, left
-        keys = [x for x in reversed(keys)]
+        keys = reversed(keys)
 
     #print(ba2hex(left), ba2hex(right))
 
-    for i in range(ROUND_NUMBER):
-        new_right = left ^ feistel(right, keys[i])
+    for key in keys:
+        new_right = left ^ feistel(right, key)
         left = right
         right = new_right
 
