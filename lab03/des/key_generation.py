@@ -30,7 +30,7 @@ def generate_keys(key: bitarray) -> list[bitarray]:
         keys.append(permute(ci+di, CP))
 
         #print(ba2hex(ci), ba2hex(di), sep="\n")
-        print(ba2hex(keys[i]))
+        #print(ba2hex(keys[i]))
 
     return keys
 
