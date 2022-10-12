@@ -19,16 +19,10 @@ def encipher(msg: bitarray, keys: list[bitarray], deciphiring=False):
         left, right = right, left
         keys = reversed(keys)
 
-    #print(ba2hex(left), ba2hex(right))
-
     for key in keys:
         new_right = left ^ feistel(right, key)
         left = right
         right = new_right
-
-        #print(ba2hex(left), end=" ")
-        #print(ba2hex(right), end=" ")
-        #print(ba2hex(keys[i]))
 
     if deciphiring:
         left, right = right, left

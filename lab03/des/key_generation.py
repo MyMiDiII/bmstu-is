@@ -8,7 +8,6 @@ from des.psblocks import permute, add_zeros
 
 
 def bitarray_circular_shift(bits: bitarray, step: int) -> bitarray:
-    #return (bitarray([0] * (len(bits) - step)) + bits[:step]) | (bits << step)
     return add_zeros(bits[:step], len(bits)) | (bits << step)
 
 
@@ -17,10 +16,8 @@ def generate_keys(key: bitarray) -> list[bitarray]:
         return []
 
     result = permute(key, B)
-    #print(result)
 
     ci, di = result[:28], result[28:]
-    #print(ci, di, sep="\n")
 
     keys = []
 
@@ -28,9 +25,6 @@ def generate_keys(key: bitarray) -> list[bitarray]:
         ci = bitarray_circular_shift(ci, SI[i])
         di = bitarray_circular_shift(di, SI[i])
         keys.append(permute(ci+di, CP))
-
-        #print(ba2hex(ci), ba2hex(di), sep="\n")
-        #print(ba2hex(keys[i]))
 
     return keys
 

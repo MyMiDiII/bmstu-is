@@ -16,10 +16,6 @@ def substitute(in_array: bitarray, sblock: list[list[int]]) -> bitarray:
     row = int(str(in_array[0]) + str(in_array[-1]), base=2)
     column = int(''.join(str(x) for x in in_array[1:-1].tolist()), base=2)
 
-    #print(in_array)
-    #print(in_array[1:-1].tolist())
-    #print(row, column)
-
     return add_zeros(bitarray(bin(sblock[row][column])[2:]), 4)
 
 

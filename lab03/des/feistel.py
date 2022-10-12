@@ -4,6 +4,7 @@ from bitarray.util import hex2ba, ba2hex
 from des.psblocks import permute, substitute, add_zeros
 from des.tables import E, S, P
 
+
 def feistel(msg: bitarray, key: bitarray) -> bitarray:
     if len(msg) != 32 or len(key) != 48:
         return None
