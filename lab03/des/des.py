@@ -1,12 +1,12 @@
 from bitarray import bitarray
 from bitarray.util import hex2ba, ba2hex
 
-from tables import IP, IP1
-from constants import ROUND_NUMBER
+from des.tables import IP, IP1
+from des.constants import ROUND_NUMBER
 
-from psblocks import permute, add_zeros
-from feistel import feistel
-from key_generation import generate_keys
+from des.psblocks import permute, add_zeros
+from des.feistel import feistel
+from des.key_generation import generate_keys
 
 def encipher(msg: bitarray, keys: list[bitarray], deciphiring=False):
     if len(msg) != 64:

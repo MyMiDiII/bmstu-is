@@ -1,10 +1,11 @@
 from bitarray import bitarray
 
-from tables import S3
+from des.tables import S3
 
 
-def add_zeros(bits: bitarray, length: int) -> bitarray:
-    return bitarray([0] * (length - len(bits))) + bits
+def add_zeros(bits: bitarray, length: int, right=False) -> bitarray:
+    zeros = bitarray([0] * (length - len(bits)))
+    return zeros + bits if not right else bits + zeros
 
 
 def permute(in_array: bitarray, table: list[int]) -> bitarray:

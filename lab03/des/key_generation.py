@@ -1,10 +1,10 @@
 from bitarray import bitarray
 from bitarray.util import hex2ba, ba2hex
 
-from constants import ROUND_NUMBER
-from tables import B, SI, CP
+from des.constants import ROUND_NUMBER
+from des.tables import B, SI, CP
 
-from psblocks import permute, add_zeros
+from des.psblocks import permute, add_zeros
 
 
 def bitarray_circular_shift(bits: bitarray, step: int) -> bitarray:
