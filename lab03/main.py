@@ -1,4 +1,5 @@
 import sys
+import os
 import argparse
 
 from termcolor import cprint
@@ -6,6 +7,7 @@ from bitarray.util import hex2ba
 
 from des.psblocks import add_zeros
 import string_des
+import file_des
 
 
 def print_error(msg: str):
@@ -33,8 +35,29 @@ def EncipherString(key: str, deciphering: bool):
     cprint(string_des.string_enciphering(string, bitkey, deciphering), "green")
 
 
-def EncipherText(filename, conf, outfilename):
-    pass
+def EncipherFile(filename: str, key: str,
+                 deciphering: bool, outname: str):
+    try:
+        bitkey = add_zeros(hex2ba(key), 64)
+    except ValueError:
+        print_error("неверный формат ключа")
+        return
+
+    if outname is None:
+        outname = "data/result"
+
+    outname += '.' + filename.split('.')[-1]
+
+    os.makedirs(os.path.dirname(outname), exist_ok=True)
+    with (open(filename, "rb") as in_file,
+          open(outname,  "wb") as out_file):
+        pass
+        file_des.file_enciphering(in_file, bitkey, deciphering, out_file)
+
+    cprint("Файл {0} успешно {1}!".format(filename,
+                             "расшифрован" if deciphering else "зашифрован"),
+           "green")
+    print("Путь к результату:", outname)
 
 
 def parse_args():
@@ -82,7 +105,4 @@ if __name__ == "__main__":
         EncipherString(args.key, args.deciphering)
 
     elif args.mode == "file":
-        print("file mode")
-        print(args)
-        #EncipherBinary(args.filename, args.conf,
-        #               args.out if args.out is not None else "result.bin")
+        EncipherFile(args.filename, args.key, args.deciphering, args.out)
