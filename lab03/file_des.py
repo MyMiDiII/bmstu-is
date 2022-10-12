@@ -23,8 +23,6 @@ def file_enciphering(in_file: BinaryIO, bitkey: bitarray,
     for i in range(0, len(msg), 64):
         result += des(msg[i:i + 64], bitkey, deciphering)
 
-    print("res", result)
-
     if deciphering:
         result = result[:rindex(result, 1)]
 

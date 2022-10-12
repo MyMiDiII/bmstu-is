@@ -92,7 +92,8 @@ def parse_args():
         const=True, default=False, type=bool,
         help="режим расшифровки"
     )
-    parser_file.add_argument('--out', nargs='?', help='имя выходного файла')
+    parser_file.add_argument('-o', '--out', nargs='?',
+                             help='имя выходного файла')
     parser_file.set_defaults(mode='file')
 
     return parser.parse_args()
