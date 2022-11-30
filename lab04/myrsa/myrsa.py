@@ -1,5 +1,5 @@
 from typing import Tuple
-from utils import ModularPow
+from myrsa.utils import ModularPow
 
 def CryptBase(value: int, key: Tuple[int, int]) -> int:
     return ModularPow(value, key[0], key[1])

@@ -43,7 +43,7 @@ def GenerateKeys(upper: int) -> Tuple[Key, Key]:
     logging.debug(f"primeTable {primeNumsTable}")
     logging.debug(f"len part of table {max(len(primeNumsTable) // 10 + 1, 2)}")
     greatestPrimes = primeNumsTable[-max(len(primeNumsTable) // 10 + 1, 2):]
-    logging.debug(f"part of table {greatestPrimes}")
+    logging.debug(f"part of table {greatestPrimes[0]}, {greatestPrimes[1]}")
 
     p, q = random.sample(greatestPrimes, 2)
     logging.debug(f"p={p}, q={q}")

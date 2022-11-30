@@ -2,12 +2,15 @@ import sys
 import os
 import argparse
 
+from typing import Tuple
+
 import logging
 logging.basicConfig(filename="rsa.log", filemode="w", level=logging.DEBUG)
 
 from termcolor import cprint
 
 from myrsa.generation import GenerateKeys
+from myrsa.myrsa import Encrypt, Decrypt
 
 def print_error(msg: str):
     cprint("ОШИБКА:", "red", end=" ")
@@ -40,13 +43,37 @@ def parse_args():
     return parser.parse_args()
 
 
+def EncryptFile(file: str, key: Tuple[int, int]) -> None:
+    with open(file, "rb") as fileIn:
+        with open("./encrypted/" + os.path.basename(file), "wb") as fileOut:
+            while (byte := fileIn.read(1)):
+                number = int.from_bytes(byte, "big")
+                encrypted = Encrypt(number, key)
+                fileOut.write(encrypted.to_bytes(8, "big"))
+
+
+def DecryptFile(file: str, key: Tuple[int, int]) -> None:
+    with open(file, "rb") as fileIn:
+        with open("./decrypted/" + os.path.basename(file), "wb") as fileOut:
+            while (byte := fileIn.read(8)):
+                number = int.from_bytes(byte, "big")
+                encrypted = Decrypt(number, key)
+                fileOut.write(encrypted.to_bytes(1, "big"))
+
+
 if __name__ == "__main__":
     args = parse_args()
 
     if args.mode == "gen":
         logging.info("KEYS GENERATION")
         logging.debug(f"args {args}")
-        publicKey, privateKey = GenerateKeys(100)
+        publicKey, privateKey = GenerateKeys(1000000)
+        """
+        Открытый ключ: 3573 7387
+        Закрытый ключ: 4845 7387
+        Открытый ключ: 41373090635 854761784951
+        Закрытый ключ: 623746932443 854761784951
+        """
 
         cprint(f"Открытый ключ: {publicKey[0]} {publicKey[1]}", "cyan")
         cprint(f"Закрытый ключ: {privateKey[0]} {privateKey[1]}", "cyan")
@@ -56,6 +83,18 @@ if __name__ == "__main__":
         logging.info("FILE ENCRYPTION")
         logging.debug(f"args {args}")
 
+        EncryptFile(args.filename, (args.d, args.N))
+
+        endPath = os.path.basename(args.filename)
+        cprint(f"Файл успешно зашифрован и сохранен по пути "
+               f"./encrypted/{endPath}", "green")
+
     elif args.mode == "dec":
         logging.info("FILE DECRYPTION")
         logging.debug(f"args {args}")
+
+        DecryptFile(args.filename, (args.e, args.N))
+
+        endPath = os.path.basename(args.filename)
+        cprint(f"Файл успешно расшифрован и сохранен по пути "
+               f"./decrypted/{endPath}", "green")
