@@ -28,6 +28,24 @@ def ExtendedEuclideanAlgorithm(a: int, b: int) -> Tuple[int, int, int]:
 
     return first
 
+
+def ModularPow(base: int, exponent: int, module: int) -> int:
+    if module == 1:
+        return 0
+
+    result = 1
+    base %= module
+
+    while exponent != 0:
+        if exponent % 2:
+            result = result * base % module
+
+        exponent //= 2
+        base = base ** 2 % module
+
+    return result
+
+
 if __name__ == "__main__":
     print(gcd(2, 4))
     print(gcd(10, 5))
@@ -38,3 +56,6 @@ if __name__ == "__main__":
     print(ExtendedEuclideanAlgorithm(10, 5))
     print(ExtendedEuclideanAlgorithm(20, 11))
     print(ExtendedEuclideanAlgorithm(11, 0))
+
+    print(ModularPow(4, 13, 497))
+    print(ModularPow(2, 50, 100))
