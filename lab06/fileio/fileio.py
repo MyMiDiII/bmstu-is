@@ -15,7 +15,6 @@ class FileIO:
         if addZerosNum:
             bits += '0' * (8 - addZerosNum)
 
-        #print(bits)
         with open(filename, "wb") as file:
             bits.tofile(file)
 
@@ -33,3 +32,6 @@ class FileIO:
         return bits
 
 
+    def WriteBytes(self, filename: str, data: bytes):
+        with open(filename, "wb") as file:
+            file.write(data)

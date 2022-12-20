@@ -16,11 +16,10 @@ class FrequencyTable:
         self.table = Counter()
         for byte in what:
             self.table[byte] += 1
-        print(self.table)
 
     def FromBitarray(self, what: bitarray):
         self.table = Counter()
-        symbolsNum = ba2int(what[:8])
+        symbolsNum = ba2int(what[:8]) + 1
 
         for i in range(symbolsNum):
             byteBegin = 8 + 24 * i
@@ -30,7 +29,6 @@ class FrequencyTable:
             frequency = ba2int(what[byteEnd:freqEnd])
             self.table[byte] = frequency
 
-        print(self.table)
 
     def ToBitarray(self) -> bitarray:
         result = bitarray("{0:08b}".format(len(self.table) - 1))
@@ -38,6 +36,5 @@ class FrequencyTable:
             itemCode = f"{'{0:08b}'.format(item[0])}{'{0:016b}'.format(item[1])}"
             result += itemCode
 
-        #print(result)
         return result
 

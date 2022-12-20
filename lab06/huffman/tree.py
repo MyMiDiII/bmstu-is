@@ -64,17 +64,19 @@ class HuffmanTree:
             nodes.append(newNode)
 
         self.root = nodes[0]
-        #print(self.root)
+
 
     def recurciveGetTable(self
                           , curRoot: HuffmanNode
-                          , curCode: bitarray):
-        #print(curCode, curRoot.symbol)
+                          , curCode: bitarray
+                          , swap: bool):
         if curRoot.symbol is not None:
-            return {curRoot.symbol : curCode}
+            return ({curCode.to01() : curRoot.symbol}
+                    if swap else {curRoot.symbol : curCode})
 
-        return (self.recurciveGetTable(curRoot.leftChild, curCode + '0')
-                | self.recurciveGetTable(curRoot.rightChild, curCode + '1'))
+        return (self.recurciveGetTable(curRoot.leftChild, curCode + '0', swap)
+              | self.recurciveGetTable(curRoot.rightChild, curCode + '1', swap))
 
-    def GetHuffmanCodeTable(self):
-        return self.recurciveGetTable(self.root, bitarray())
+
+    def GetHuffmanCodeTable(self, swap=False):
+        return self.recurciveGetTable(self.root, bitarray(), swap)

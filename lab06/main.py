@@ -35,24 +35,6 @@ def parse_args():
     return parser.parse_args()
 
 
-#def EncryptFile(file: str, key: Tuple[int, int]) -> None:
-#    with open(file, "rb") as fileIn:
-#        with open("./encrypted/" + os.path.basename(file), "wb") as fileOut:
-#            while (byte := fileIn.read(1)):
-#                number = int.from_bytes(byte, "big")
-#                encrypted = Encrypt(number, key)
-#                fileOut.write(encrypted.to_bytes(8, "big"))
-#
-#
-#def DecryptFile(file: str, key: Tuple[int, int]) -> None:
-#    with open(file, "rb") as fileIn:
-#        with open("./decrypted/" + os.path.basename(file), "wb") as fileOut:
-#            while (byte := fileIn.read(8)):
-#                number = int.from_bytes(byte, "big")
-#                encrypted = Decrypt(number, key)
-#                fileOut.write(encrypted.to_bytes(1, "big"))
-
-
 if __name__ == "__main__":
     args = parse_args()
 
@@ -81,7 +63,7 @@ if __name__ == "__main__":
         decompressed = coder.Decompress(b)
 
         endPath = os.path.basename(args.filename)
-        fileWorker.WriteBitarray(f"./compressed/{endPath}", compressed)
+        fileWorker.WriteBytes(f"./decompressed/{endPath}", decompressed)
 
         endPath = os.path.basename(args.filename)
         cprint(f"Файл успешно восстановлен и сохранен по пути "

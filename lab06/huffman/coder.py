@@ -13,14 +13,14 @@ class HuffmanCoder:
         freqTable = FrequencyTable()
         freqTable.Build(what)
         codesTable = HuffmanTree(freqTable).GetHuffmanCodeTable()
-        compressed = self.comressByCodesTable(what, codesTable)
+        compressed = self.compressByCodesTable(what, codesTable)
 
         result = freqTable.ToBitarray() + compressed
 
         return result
 
 
-    def comressByCodesTable(self, what: bytes, codesTable: dict):
+    def compressByCodesTable(self, what: bytes, codesTable: dict):
         result = bitarray()
         for byte in what:
             result += codesTable[byte]
@@ -33,19 +33,31 @@ class HuffmanCoder:
 
         freqTable = FrequencyTable()
         freqTable.FromBitarray(bitTable)
+        codesTable = HuffmanTree(freqTable).GetHuffmanCodeTable(True)
 
-        tree = createTree(table)
-
-        decompressed = decompressByTree(what, tree)
+        decompressed = self.decompressByCodesTable(data, codesTable)
 
         return decompressed
 
 
     def extract(self, what: bitarray) -> tuple[bitarray, bitarray]:
-        #print(what)
         symbolsNum = ba2int(what[:8])
         tableLen = 32 + 24 * symbolsNum
         # tableLen = 8 * (1 + 3  * (symbolsNum + 1))
 
         return what[:tableLen], what[tableLen:]
+
+
+    def decompressByCodesTable(self, what: bitarray, codesTable: dict):
+        result = bytes()
+        curCode = bitarray()
+        for bit in what:
+            curCode += bitarray(str(bit))
+            trueByte = codesTable.get(curCode.to01())
+
+            if trueByte is not None :
+                curCode = bitarray()
+                result += bytes([trueByte])
+
+        return result
 
