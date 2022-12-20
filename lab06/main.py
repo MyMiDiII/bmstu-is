@@ -10,6 +10,7 @@ logging.basicConfig(filename="huffman.log", filemode="w", level=logging.DEBUG)
 from termcolor import cprint
 
 from fileio.fileio import FileIO
+from huffman.coder import HuffmanCoder
 
 
 def print_error(msg: str):
@@ -61,8 +62,16 @@ if __name__ == "__main__":
 
         fileWorker = FileIO()
         b = fileWorker.ReadToBytes(args.filename)
-        for bt in b:
-            print(bt)
+        #b = b'\00\01\10'
+        #print(b)
+        #for bt in b:
+        #    print(bt)
+        #    d = {bt : 0}
+        #    print(d)
+        #print("ok")
+        coder = HuffmanCoder()
+        coder.Compress(b)
+
         #Compress(args.filename)
 
         endPath = os.path.basename(args.filename)
