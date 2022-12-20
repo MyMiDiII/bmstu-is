@@ -11,12 +11,22 @@ class HuffmanCoder:
     def Compress(self, what: bytes) -> bitarray:
         freqTable = FrequencyTable()
         freqTable.Build(what)
-        codeTable = HuffmanTree(freqTable).GetHuffmanCodeTable()
-        print(codeTable)
-        #compressed = comressByTree(what, tree)
+        codesTable = HuffmanTree(freqTable).GetHuffmanCodeTable()
+        #for item in codesTable.items():
+        #    print(item)
+        compressed = self.comressByCodesTable(what, codesTable)
 
-        #result = table.ToBitarray() + compressed
-        result = 0
+        result = freqTable.ToBitarray() + compressed
+
+        return result
+        #print(compressed)
+        #return compressed
+
+
+    def comressByCodesTable(self, what: bytes, codesTable: dict):
+        result = bitarray()
+        for byte in what:
+            result += codesTable[byte]
 
         return result
 

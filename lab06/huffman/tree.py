@@ -63,15 +63,13 @@ class HuffmanTree:
                                   )
             nodes.append(newNode)
 
-            #print("NEW")
-            #for node in nodes:
-            #    print(node)
-
         self.root = nodes[0]
+        print(self.root)
 
     def recurciveGetTable(self
                           , curRoot: HuffmanNode
                           , curCode: bitarray):
+        #print(curCode, curRoot.symbol)
         if curRoot.symbol is not None:
             return {curRoot.symbol : curCode}
 

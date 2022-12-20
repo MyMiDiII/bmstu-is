@@ -70,11 +70,11 @@ if __name__ == "__main__":
         #    print(d)
         #print("ok")
         coder = HuffmanCoder()
-        coder.Compress(b)
-
-        #Compress(args.filename)
+        compressed = coder.Compress(b)
 
         endPath = os.path.basename(args.filename)
+        fileWorker.WriteBitarray(f"./compressed/{endPath}", compressed)
+
         cprint(f"Файл успешно сжат и сохранен по пути "
                f"./compressed/{endPath}", "green")
 
