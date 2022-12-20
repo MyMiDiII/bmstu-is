@@ -15,5 +15,21 @@ class FileIO:
         if addZerosNum:
             bits += '0' * (8 - addZerosNum)
 
+        #print(bits)
         with open(filename, "wb") as file:
             bits.tofile(file)
+
+
+    def ReadToBits(self, filename: str):
+        bits = bitarray()
+        with open(filename, "rb") as file:
+            bits.fromfile(file)
+
+        while bits[-1] != 1:
+            bits = bits[:-1]
+
+        bits = bits[:-1]
+
+        return bits
+
+

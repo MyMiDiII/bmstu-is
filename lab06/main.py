@@ -62,13 +62,6 @@ if __name__ == "__main__":
 
         fileWorker = FileIO()
         b = fileWorker.ReadToBytes(args.filename)
-        #b = b'\00\01\10'
-        #print(b)
-        #for bt in b:
-        #    print(bt)
-        #    d = {bt : 0}
-        #    print(d)
-        #print("ok")
         coder = HuffmanCoder()
         compressed = coder.Compress(b)
 
@@ -82,8 +75,14 @@ if __name__ == "__main__":
         logging.info("DECOMPRESSING")
         logging.debug(f"args {args}")
 
-        #Decompress(args.filename)
+        fileWorker = FileIO()
+        b = fileWorker.ReadToBits(args.filename)
+        coder = HuffmanCoder()
+        decompressed = coder.Decompress(b)
 
         endPath = os.path.basename(args.filename)
-        cprint(f"Файл успешно распакован и сохранен по пути "
+        fileWorker.WriteBitarray(f"./compressed/{endPath}", compressed)
+
+        endPath = os.path.basename(args.filename)
+        cprint(f"Файл успешно восстановлен и сохранен по пути "
                f"./decompressed/{endPath}", "green")

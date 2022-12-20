@@ -1,4 +1,5 @@
 from bitarray import bitarray
+from bitarray.util import ba2int
 
 from huffman.table import FrequencyTable
 from huffman.tree import HuffmanTree
@@ -12,15 +13,11 @@ class HuffmanCoder:
         freqTable = FrequencyTable()
         freqTable.Build(what)
         codesTable = HuffmanTree(freqTable).GetHuffmanCodeTable()
-        #for item in codesTable.items():
-        #    print(item)
         compressed = self.comressByCodesTable(what, codesTable)
 
         result = freqTable.ToBitarray() + compressed
 
         return result
-        #print(compressed)
-        #return compressed
 
 
     def comressByCodesTable(self, what: bytes, codesTable: dict):
@@ -32,10 +29,10 @@ class HuffmanCoder:
 
 
     def Decompress(self, what: bitarray) -> bytes:
-        bitTable, data = extract(what)
+        bitTable, data = self.extract(what)
 
-        table = FrequencyTable()
-        table.FromBitarray(bitTable)
+        freqTable = FrequencyTable()
+        freqTable.FromBitarray(bitTable)
 
         tree = createTree(table)
 
@@ -43,4 +40,12 @@ class HuffmanCoder:
 
         return decompressed
 
+
+    def extract(self, what: bitarray) -> tuple[bitarray, bitarray]:
+        #print(what)
+        symbolsNum = ba2int(what[:8])
+        tableLen = 32 + 24 * symbolsNum
+        # tableLen = 8 * (1 + 3  * (symbolsNum + 1))
+
+        return what[:tableLen], what[tableLen:]
 

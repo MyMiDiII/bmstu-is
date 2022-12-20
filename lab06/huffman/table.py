@@ -1,4 +1,5 @@
 from bitarray import bitarray
+from bitarray.util import ba2int
 from collections import Counter
 
 
@@ -15,9 +16,21 @@ class FrequencyTable:
         self.table = Counter()
         for byte in what:
             self.table[byte] += 1
+        print(self.table)
 
     def FromBitarray(self, what: bitarray):
-        pass
+        self.table = Counter()
+        symbolsNum = ba2int(what[:8])
+
+        for i in range(symbolsNum):
+            byteBegin = 8 + 24 * i
+            byteEnd = byteBegin + 8
+            freqEnd = byteEnd + 16
+            byte = ba2int(what[byteBegin:byteEnd])
+            frequency = ba2int(what[byteEnd:freqEnd])
+            self.table[byte] = frequency
+
+        print(self.table)
 
     def ToBitarray(self) -> bitarray:
         result = bitarray("{0:08b}".format(len(self.table) - 1))

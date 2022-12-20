@@ -64,7 +64,7 @@ class HuffmanTree:
             nodes.append(newNode)
 
         self.root = nodes[0]
-        print(self.root)
+        #print(self.root)
 
     def recurciveGetTable(self
                           , curRoot: HuffmanNode
