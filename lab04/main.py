@@ -68,12 +68,6 @@ if __name__ == "__main__":
         logging.info("KEYS GENERATION")
         logging.debug(f"args {args}")
         publicKey, privateKey = GenerateKeys(1000000)
-        """
-        Открытый ключ: 3573 7387
-        Закрытый ключ: 4845 7387
-        Открытый ключ: 41373090635 854761784951
-        Закрытый ключ: 623746932443 854761784951
-        """
 
         cprint(f"Открытый ключ: {publicKey[0]} {publicKey[1]}", "cyan")
         cprint(f"Закрытый ключ: {privateKey[0]} {privateKey[1]}", "cyan")
